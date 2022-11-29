@@ -23,21 +23,21 @@ ConsultaDatos <- function(COD_CT = NULL, posicion = 0
                           , overWrite = FALSE    # sobreescribimos en caso de q existan?
 ){
 
-  # parametros Query
-  COD_CT = 10200580
-  posicion = 0
-  dynamicFrom = TRUE
-  from = '01/01/2021'
-  to = '01/11/2022'
-  maxLoss = 0.5
-  minLoss = -0.2
-  allowNegDif = FALSE
-  # limpieza trifasicos
-  rmTriPhaseNoise = FALSE
-  rmOnlyTriphaseCn = TRUE
-  # opciones de guardado
-  save = TRUE
-  overWrite = FALSE
+  # # parametros Query
+  # COD_CT = 10200580
+  # posicion = 0
+  # dynamicFrom = TRUE
+  # from = '01/01/2021'
+  # to = '01/11/2022'
+  # maxLoss = 0.5
+  # minLoss = -0.2
+  # allowNegDif = FALSE
+  # # limpieza trifasicos
+  # rmTriPhaseNoise = FALSE
+  # rmOnlyTriphaseCn = TRUE
+  # # opciones de guardado
+  # save = TRUE
+  # overWrite = FALSE
   
   save = TRUE
   
