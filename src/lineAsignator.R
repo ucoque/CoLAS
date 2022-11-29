@@ -37,7 +37,7 @@ source(here("src","f_las.R"))
 
 
 # opciones lectura datos
-cod_ct = 10200580
+cod_ct = 424633467
 pos = 0
 From = '01/01/2021'
 To = '01/11/2022'
@@ -55,7 +55,7 @@ LPdata <- ConsultaDatos(COD_CT = cod_ct
                         , minLoss = -0.2
                         , allowNegDif = FALSE
                         , rmTriPhaseNoise = FALSE, rmOnlyTriphaseCn = FALSE
-                        , overWrite = TRUE)
+                        , overWrite = FALSE)
 
 
 res <- LAS(LPdata
@@ -65,6 +65,7 @@ res <- LAS(LPdata
             , step = c(0.25, 0.125, 0.075, 0.05, 0.025)
             , mda = 0.5)
 
+write.csv2(res$cnData, file = paste0(cod_ct,".csv"))
 
 # mostramos resultados
 res$cnData %>%

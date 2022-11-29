@@ -51,31 +51,34 @@ LAS <- function( LPdata
   spvs = LPdata$spvs
   
   if(tip_tension == "B02"){
-    
-    regData <- LPdata$CN %>% 
-      inner_join(LPdata$SPV, by = "FH") %>% 
-      # select(-one_of("METER_ID")) %>%
-      column_to_rownames("FH") 
-    
+
+    regData <- LPdata$CN %>%
+    inner_join(LPdata$SPV, by = "FH") %>%
+    # select(-one_of("METER_ID")) %>%
+    column_to_rownames("FH")
+
   }else{
-    # si la tension es B01, dividimos entre dos el consumo porque se conectan a 
+    # si la tension es B01, dividimos entre dos el consumo porque se conectan a
     # fase y fase en vez de fase y neutro y la mitad del consumo va para cada fase.
-    
-    regData <- LPdata$CN %>% 
-      mutate_if(is.numeric, funs(. / 2)) %>%  
-      inner_join(LPdata$SPV, by = "FH") %>% 
+
+    regData <- LPdata$CN %>%
+      mutate_if(is.numeric, funs(. / 2)) %>%
+      inner_join(LPdata$SPV, by = "FH") %>%
       # select(-one_of("METER_ID")) %>%
-      column_to_rownames("FH") 
+      column_to_rownames("FH")
   }
 
   cnData <- LPdata$CnData
   cnData$line <- NA
+  cnData$iter <- NA
 
   # si tenemos suficientes registros iteramos.
   if(nrow(regData)>ncol(regData)-nSpv*3){
     
     # variables de iniciación
     {
+      iter = 1
+      
       m = 1
       allowDif = step[1]
       
@@ -176,6 +179,8 @@ LAS <- function( LPdata
                      , spvFase
                      , paste0(cnData$line[which(rownames(cnData) %in% f_asig[[spvFase]]) ],"-",spvFase)
               )
+            
+            cnData$iter[which(rownames(cnData) %in% f_asig[[spvFase]]) ] <- iter
           }
         }
         
@@ -184,6 +189,7 @@ LAS <- function( LPdata
         
         message(length(unlist(f_asig))/ifelse(tip_tension=="B01",2,1), " asignados")
         
+        iter <- iter+1
         m = 1
         allowDif = step[m]
         skipLM = FALSE
@@ -199,6 +205,8 @@ LAS <- function( LPdata
       }
       
       # all( regData[,c("f1","f2","f3")]>0 )
+      
+      
     }
     
     rs <- list()
